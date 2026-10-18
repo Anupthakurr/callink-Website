@@ -507,10 +507,11 @@ export default function HeroSection() {
               style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "36px" }}
             >
               <a
-                href="/api/download"
+                href="https://pub-fd660d9dc0a946a0b983b5f725bba3ea.r2.dev/Callink_v2.1.exe"
                 onClick={triggerDownloadEvent}
                 className="btn-primary"
                 style={{ fontSize: "15px", padding: "13px 24px" }}
+                download
               >
                 <Download size={18} />
                 Download for Windows (v2.1)

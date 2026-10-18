@@ -398,7 +398,7 @@ export default function QuickstartSection() {
               {activeTab === "exe" && (
                 <div style={{ marginTop: "20px", display: "flex", flexDirection: "column", gap: "10px" }}>
                   <a
-                    href="/api/download"
+                    href="https://pub-fd660d9dc0a946a0b983b5f725bba3ea.r2.dev/Callink_v2.1.exe"
                     onClick={triggerDownloadEvent}
                     className="btn-primary"
                     style={{
@@ -408,6 +408,7 @@ export default function QuickstartSection() {
                       justifyContent: "center",
                       boxShadow: "0 0 20px rgba(124, 58, 237, 0.4)",
                     }}
+                    download
                   >
                     <Download size={15} />
                     Download Callink_v2.1.exe

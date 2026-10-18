@@ -49,6 +49,9 @@ export function useLiveDownloadCount() {
 export function triggerDownloadEvent() {
   if (typeof window !== "undefined") {
     window.dispatchEvent(new Event("callink:download"));
+    try {
+      fetch("/api/stats", { method: "POST" }).catch(() => {});
+    } catch {}
   }
 }
 

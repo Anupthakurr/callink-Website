@@ -18,7 +18,7 @@ export default function StatsPage() {
 
   const handleTestDownload = () => {
     triggerDownloadEvent();
-    window.location.href = "/api/download";
+    window.location.href = "https://pub-fd660d9dc0a946a0b983b5f725bba3ea.r2.dev/Callink_v2.1.exe";
   };
 
   const formattedDate = lastDownloaded

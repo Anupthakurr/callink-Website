@@ -145,7 +145,7 @@ export default function CTASection() {
             }}
           >
             <a
-              href="/api/download"
+              href="https://pub-fd660d9dc0a946a0b983b5f725bba3ea.r2.dev/Callink_v2.1.exe"
               onClick={triggerDownloadEvent}
               className="btn-primary"
               style={{
@@ -153,6 +153,7 @@ export default function CTASection() {
                 padding: "14px 32px",
                 boxShadow: "0 0 35px rgba(124, 58, 237, 0.5)",
               }}
+              download
             >
               <Download size={18} />
               Download Callink v2.1 (EXE)
