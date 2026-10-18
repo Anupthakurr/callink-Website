@@ -142,7 +142,8 @@ export default function Footer() {
               >
                 <Twitter size={18} />
               </a>
-              <div
+              <Link
+                href="/stats"
                 style={{
                   fontSize: "12px",
                   padding: "4px 10px",
@@ -151,10 +152,14 @@ export default function Footer() {
                   border: "1px solid rgba(16, 185, 129, 0.25)",
                   color: "#34D399",
                   fontFamily: "var(--font-mono)",
+                  textDecoration: "none",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
                 }}
               >
-                v1.0.0 Stable
-              </div>
+                v2.1 Stable · Live Stats
+              </Link>
             </div>
           </div>
 
@@ -236,6 +241,11 @@ export default function Footer() {
               <li>
                 <Link href="/changelog" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "14px", transition: "color 0.2s" }} className="hover:text-white">
                   Changelog
+                </Link>
+              </li>
+              <li>
+                <Link href="/stats" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "14px", transition: "color 0.2s" }} className="hover:text-white">
+                  Live Download Stats
                 </Link>
               </li>
               <li>

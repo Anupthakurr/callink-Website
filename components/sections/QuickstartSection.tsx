@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, Copy, Terminal, Download } from "lucide-react";
+import LiveDownloadBadge, { triggerDownloadEvent } from "@/components/ui/LiveDownloadBadge";
 
 /* ---- Code Copy Button ---- */
 function CopyButton({ code }: { code: string }) {
@@ -395,21 +396,26 @@ export default function QuickstartSection() {
                 </div>
               ))}
               {activeTab === "exe" && (
-                <a
-                  href="/api/download"
-                  className="btn-primary"
-                  style={{
-                    marginTop: "20px",
-                    fontSize: "14px",
-                    padding: "10px 18px",
-                    width: "100%",
-                    justifyContent: "center",
-                    boxShadow: "0 0 20px rgba(124, 58, 237, 0.4)",
-                  }}
-                >
-                  <Download size={15} />
-                  Download Callink_v2.1.exe
-                </a>
+                <div style={{ marginTop: "20px", display: "flex", flexDirection: "column", gap: "10px" }}>
+                  <a
+                    href="/api/download"
+                    onClick={triggerDownloadEvent}
+                    className="btn-primary"
+                    style={{
+                      fontSize: "14px",
+                      padding: "10px 18px",
+                      width: "100%",
+                      justifyContent: "center",
+                      boxShadow: "0 0 20px rgba(124, 58, 237, 0.4)",
+                    }}
+                  >
+                    <Download size={15} />
+                    Download Callink_v2.1.exe
+                  </a>
+                  <div style={{ display: "flex", justifyContent: "center" }}>
+                    <LiveDownloadBadge />
+                  </div>
+                </div>
               )}
             </motion.div>
           </AnimatePresence>

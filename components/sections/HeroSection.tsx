@@ -4,6 +4,7 @@ import { useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import { Download, ChevronDown, Zap, DollarSign, Globe } from "lucide-react";
 import { Github } from "@/components/ui/Icons";
+import LiveDownloadBadge, { triggerDownloadEvent } from "@/components/ui/LiveDownloadBadge";
 
 /* ---- Animated Waveform ---- */
 function Waveform({ color = "#7C3AED" }: { color?: string }) {
@@ -490,6 +491,7 @@ export default function HeroSection() {
             >
               <a
                 href="/api/download"
+                onClick={triggerDownloadEvent}
                 className="btn-primary"
                 style={{ fontSize: "16px", padding: "14px 28px" }}
               >
@@ -514,6 +516,14 @@ export default function HeroSection() {
                 Hear a live call ↓
               </button>
             </motion.div>
+
+            {/* Live verified downloads badge */}
+            <div style={{ marginBottom: "28px", display: "flex", alignItems: "center", gap: "10px" }}>
+              <LiveDownloadBadge />
+              <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>
+                Verified Windows x64 installations
+              </span>
+            </div>
 
             {/* Trust strip */}
             <motion.div

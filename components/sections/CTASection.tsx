@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Download, Terminal, Sparkles, Shield, ArrowRight, BookOpen } from "lucide-react";
 import { Github } from "@/components/ui/Icons";
+import LiveDownloadBadge, { triggerDownloadEvent } from "@/components/ui/LiveDownloadBadge";
 
 export default function CTASection() {
   return (
@@ -129,6 +130,7 @@ export default function CTASection() {
             <span className="chip" style={{ color: "#E2E8F0" }}>
               Windows 10 / 11 + Android
             </span>
+            <LiveDownloadBadge />
           </div>
 
           {/* Action CTAs */}
@@ -143,6 +145,7 @@ export default function CTASection() {
           >
             <a
               href="/api/download"
+              onClick={triggerDownloadEvent}
               className="btn-primary"
               style={{
                 fontSize: "16px",
