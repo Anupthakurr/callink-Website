@@ -166,7 +166,7 @@ const tabContent = {
     steps: [
       { step: "1", title: "Download Callink_v2.1.exe (Windows x64)" },
       { step: "2", title: "Set your Gemini API key in Callink Dashboard Settings" },
-      { step: "3", title: "Pair your Android phone via Phone Link" },
+      { step: "3", title: "Pair your phone to Windows via Phone Link in Windows and Link to Windows in Android" },
       { step: "4", title: "Run Callink_v2.1.exe" },
       { step: "5", title: "Dashboard opens on localhost:5000" },
     ],
@@ -189,7 +189,7 @@ $env:GEMINI_API_KEY = "your_api_key_here"
     steps: [
       { step: "1", title: "Clone the repo" },
       { step: "2", title: "Edit .env with your Gemini API key" },
-      { step: "3", title: "Pair phone via Phone Link" },
+      { step: "3", title: "Pair your phone to Windows via Phone Link in Windows and Link to Windows in Android" },
       { step: "4", title: 'Run run.bat' },
       { step: "5", title: "Dashboard opens on localhost:5000" },
     ],
