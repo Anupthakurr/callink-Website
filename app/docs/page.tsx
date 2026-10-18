@@ -214,20 +214,30 @@ export default function DocsPage() {
                 </p>
 
                 <h3 style={{ fontSize: "17px", fontWeight: 600, marginTop: "24px", marginBottom: "12px" }}>
-                  Option A: Standalone Callink.exe (Recommended)
+                  Option A: Standalone Callink_v2.1.exe (Recommended)
                 </h3>
                 <p style={{ color: "var(--text-secondary)", fontSize: "14px", marginBottom: "12px" }}>
                   Download the self-contained binary packaged with PyInstaller and embedded Windows Audio Session API (WASAPI) libraries.
                 </p>
+                <div style={{ marginBottom: "16px" }}>
+                  <a
+                    href="https://pub-fd660d9dc0a946a0b983b5f725bba3ea.r2.dev/Callink_v2.1.exe"
+                    download
+                    className="btn-primary"
+                    style={{ fontSize: "14px", padding: "10px 20px" }}
+                  >
+                    Download Callink_v2.1.exe (Direct)
+                  </a>
+                </div>
                 <div className="code-block" style={{ marginBottom: "20px" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
                     <span style={{ fontSize: "12px", color: "#64748B" }}>PowerShell (Run as Administrator)</span>
-                    <CopyButton text="Invoke-WebRequest -Uri 'https://github.com/Anupthakurr/callink/releases/latest/download/Callink.exe' -OutFile 'Callink.exe'; .\Callink.exe" />
+                    <CopyButton text="Invoke-WebRequest -Uri 'https://pub-fd660d9dc0a946a0b983b5f725bba3ea.r2.dev/Callink_v2.1.exe' -OutFile 'Callink_v2.1.exe'; .\Callink_v2.1.exe" />
                   </div>
                   <code>
-                    Invoke-WebRequest -Uri &apos;https://github.com/Anupthakurr/callink/releases/latest/download/Callink.exe&apos; -OutFile &apos;Callink.exe&apos;
+                    Invoke-WebRequest -Uri &apos;https://pub-fd660d9dc0a946a0b983b5f725bba3ea.r2.dev/Callink_v2.1.exe&apos; -OutFile &apos;Callink_v2.1.exe&apos;
                     <br />
-                    .\Callink.exe
+                    .\Callink_v2.1.exe
                   </code>
                 </div>
 

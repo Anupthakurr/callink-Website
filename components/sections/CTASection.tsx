@@ -142,7 +142,8 @@ export default function CTASection() {
             }}
           >
             <a
-              href="#quickstart"
+              href="https://pub-fd660d9dc0a946a0b983b5f725bba3ea.r2.dev/Callink_v2.1.exe"
+              download
               className="btn-primary"
               style={{
                 fontSize: "16px",
@@ -151,7 +152,7 @@ export default function CTASection() {
               }}
             >
               <Download size={18} />
-              Download Callink.exe
+              Download Callink v2.1 (EXE)
             </a>
             <a
               href="https://github.com/Anupthakurr/callink"

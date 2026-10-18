@@ -162,16 +162,13 @@ export default function Navbar() {
               GitHub
             </a>
             <a
-              href="#quickstart"
-              onClick={(e) => {
-                e.preventDefault();
-                handleNavClick("#quickstart");
-              }}
+              href="https://pub-fd660d9dc0a946a0b983b5f725bba3ea.r2.dev/Callink_v2.1.exe"
+              download
               className="btn-primary"
               style={{ fontSize: "14px", padding: "9px 20px" }}
             >
               <Download size={15} />
-              Download
+              Download v2.1
             </a>
           </div>
 
@@ -266,16 +263,13 @@ export default function Navbar() {
                   GitHub
                 </a>
                 <a
-                  href="#quickstart"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavClick("#quickstart");
-                  }}
+                  href="https://pub-fd660d9dc0a946a0b983b5f725bba3ea.r2.dev/Callink_v2.1.exe"
+                  download
                   className="btn-primary"
                   style={{ flex: 1, justifyContent: "center" }}
                 >
                   <Download size={16} />
-                  Download
+                  Download v2.1
                 </a>
               </div>
             </div>

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, Copy, Terminal } from "lucide-react";
+import { Check, Copy, Terminal, Download } from "lucide-react";
 
 /* ---- Code Copy Button ---- */
 function CopyButton({ code }: { code: string }) {
@@ -109,20 +109,23 @@ function CodeBlock({ code, lang = "bash" }: { code: string; lang?: string }) {
 
 const tabContent = {
   exe: {
-    label: "Callink.exe",
+    label: "Callink_v2.1.exe",
     icon: "⚡",
     steps: [
-      { step: "1", title: "Download the executable" },
-      { step: "2", title: 'Set your Gemini API key as an environment variable' },
+      { step: "1", title: "Download Callink_v2.1.exe (Windows x64)" },
+      { step: "2", title: "Set your Gemini API key in PowerShell" },
       { step: "3", title: "Pair your Android phone via Phone Link" },
-      { step: "4", title: "Run Callink" },
-      { step: "5", title: "Open the dashboard" },
+      { step: "4", title: "Run Callink_v2.1.exe" },
+      { step: "5", title: "Dashboard opens on localhost:5000" },
     ],
-    code: `# 1. Set your Gemini API key
+    code: `# 1. Download Callink v2.1
+Invoke-WebRequest -Uri "https://pub-fd660d9dc0a946a0b983b5f725bba3ea.r2.dev/Callink_v2.1.exe" -OutFile "Callink_v2.1.exe"
+
+# 2. Set your Gemini API key
 $env:GEMINI_API_KEY = "your_api_key_here"
 
-# 2. Run Callink (double-click or via PowerShell)
-.\\Callink.exe
+# 3. Run Callink
+.\\Callink_v2.1.exe
 
 # Dashboard opens automatically at:
 # http://localhost:5000`,
@@ -391,6 +394,24 @@ export default function QuickstartSection() {
                   </div>
                 </div>
               ))}
+              {activeTab === "exe" && (
+                <a
+                  href="https://pub-fd660d9dc0a946a0b983b5f725bba3ea.r2.dev/Callink_v2.1.exe"
+                  download
+                  className="btn-primary"
+                  style={{
+                    marginTop: "20px",
+                    fontSize: "14px",
+                    padding: "10px 18px",
+                    width: "100%",
+                    justifyContent: "center",
+                    boxShadow: "0 0 20px rgba(124, 58, 237, 0.4)",
+                  }}
+                >
+                  <Download size={15} />
+                  Download Callink_v2.1.exe
+                </a>
+              )}
             </motion.div>
           </AnimatePresence>
 
