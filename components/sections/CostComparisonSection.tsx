@@ -199,7 +199,7 @@ export default function CostComparisonSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="glass-card"
-          style={{ overflowX: "auto", border: "1px solid rgba(124,58,237,0.2)" }}
+          style={{ width: "100%", maxWidth: "100%", overflowX: "auto", WebkitOverflowScrolling: "touch", border: "1px solid rgba(124,58,237,0.2)" }}
         >
           <table
             style={{

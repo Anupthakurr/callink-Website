@@ -46,7 +46,7 @@ export default function CTASection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="glass-card"
+          className="glass-card cta-card"
           style={{
             padding: "60px 40px",
             textAlign: "center",
@@ -135,6 +135,7 @@ export default function CTASection() {
 
           {/* Action CTAs */}
           <div
+            className="cta-btn-group"
             style={{
               display: "flex",
               alignItems: "center",
@@ -199,6 +200,23 @@ export default function CTASection() {
           </div>
         </motion.div>
       </div>
+
+      <style>{`
+        @media (max-width: 600px) {
+          .cta-card {
+            padding: 32px 18px !important;
+          }
+          .cta-btn-group {
+            flex-direction: column !important;
+            width: 100% !important;
+          }
+          .cta-btn-group a {
+            width: 100% !important;
+            justify-content: center !important;
+            text-align: center !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }

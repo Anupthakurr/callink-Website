@@ -509,7 +509,7 @@ export default function QuickstartSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="glass-card"
-          style={{ marginTop: "24px", overflowX: "auto" }}
+          style={{ marginTop: "24px", width: "100%", maxWidth: "100%", overflowX: "auto", WebkitOverflowScrolling: "touch" }}
         >
           <table style={{ width: "100%", borderCollapse: "collapse", minWidth: "400px" }}>
             <thead>
@@ -567,7 +567,7 @@ export default function QuickstartSection() {
 
       <style>{`
         @media (max-width: 768px) {
-          .quickstart-grid { grid-template-columns: 1fr !important; }
+          .quickstart-grid { grid-template-columns: minmax(0, 1fr) !important; }
           .phone-steps-grid { grid-template-columns: repeat(2, 1fr) !important; }
         }
         @media (max-width: 480px) {

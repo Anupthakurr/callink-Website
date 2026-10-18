@@ -190,7 +190,7 @@ export default function HowItWorksSection() {
         </motion.div>
 
         {/* Architecture Flow */}
-        <div className="glass-card" style={{ padding: "40px 32px", marginBottom: "24px" }}>
+        <div className="glass-card desktop-arch-flow" style={{ padding: "40px 32px", marginBottom: "24px" }}>
           {/* Node row */}
           <div
             style={{
@@ -383,7 +383,8 @@ export default function HowItWorksSection() {
 
       <style>{`
         @media (max-width: 768px) {
-          .mobile-steps { display: block !important; }
+          .desktop-arch-flow { display: none !important; }
+          .mobile-steps { display: block !important; padding: 20px 16px !important; }
         }
       `}</style>
     </section>

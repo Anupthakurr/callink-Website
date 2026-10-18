@@ -107,6 +107,8 @@ function ChannelToggle({
         borderRadius: "999px",
         padding: "3px",
         gap: "2px",
+        maxWidth: "100%",
+        flexWrap: "wrap",
       }}
       role="radiogroup"
       aria-label="Audio channel"
@@ -250,7 +252,7 @@ export default function DemoSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="glass-card"
+          className="glass-card demo-card"
           style={{
             maxWidth: "700px",
             margin: "0 auto",
@@ -396,6 +398,14 @@ export default function DemoSection() {
           </p>
         </motion.div>
       </div>
+
+      <style>{`
+        @media (max-width: 600px) {
+          .demo-card {
+            padding: 20px 16px !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }

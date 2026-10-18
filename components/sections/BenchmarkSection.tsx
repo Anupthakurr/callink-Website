@@ -50,6 +50,8 @@ function LatencyBar({
           justifyContent: "space-between",
           alignItems: "center",
           marginBottom: "10px",
+          flexWrap: "wrap",
+          gap: "8px",
         }}
       >
         <span
@@ -205,11 +207,13 @@ export default function BenchmarkSection() {
               display: "inline-flex",
               flexDirection: "column",
               alignItems: "center",
-              padding: "32px 48px",
+              padding: "24px 28px",
               borderRadius: "24px",
               background: "linear-gradient(135deg, rgba(124,58,237,0.12), rgba(6,182,212,0.08))",
               border: "1px solid rgba(124,58,237,0.25)",
               gap: "4px",
+              maxWidth: "100%",
+              boxSizing: "border-box",
             }}
           >
             <div
@@ -240,7 +244,7 @@ export default function BenchmarkSection() {
         </motion.div>
 
         {/* Bars */}
-        <div className="glass-card" style={{ padding: "40px" }}>
+        <div className="glass-card benchmark-card" style={{ padding: "40px" }}>
           <LatencyBar
             segments={legacySegments}
             totalMs={legacyTotal}
@@ -374,6 +378,14 @@ export default function BenchmarkSection() {
           </p>
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 600px) {
+          .benchmark-card {
+            padding: 20px 16px !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }

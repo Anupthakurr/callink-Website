@@ -7,15 +7,17 @@ import { Github } from "@/components/ui/Icons";
 import LiveDownloadBadge, { triggerDownloadEvent } from "@/components/ui/LiveDownloadBadge";
 
 /* ---- Animated Waveform ---- */
-function Waveform({ color = "#7C3AED" }: { color?: string }) {
-  const bars = Array.from({ length: 28 });
+function Waveform({ color = "#7C3AED", count = 16 }: { color?: string; count?: number }) {
+  const bars = Array.from({ length: count });
   return (
     <div
       style={{
         display: "flex",
         alignItems: "center",
-        gap: "3px",
-        height: "40px",
+        gap: "2px",
+        height: "36px",
+        maxWidth: "100%",
+        overflow: "hidden",
       }}
       aria-hidden="true"
     >
@@ -60,6 +62,7 @@ function DashboardMock() {
       style={{
         width: "100%",
         maxWidth: "560px",
+        minWidth: 0,
         overflow: "hidden",
         border: "1px solid rgba(124,58,237,0.25)",
         boxShadow:
@@ -119,50 +122,53 @@ function DashboardMock() {
       {/* VU Meters */}
       <div
         style={{
-          padding: "14px 18px",
+          padding: "12px 14px",
           borderBottom: "1px solid var(--border-subtle)",
           display: "flex",
-          gap: "24px",
+          gap: "12px",
           alignItems: "center",
+          flexWrap: "wrap",
+          justifyContent: "space-between",
         }}
       >
-        <div>
+        <div style={{ minWidth: 0, flex: "1 1 auto" }}>
           <div
             style={{
               fontSize: "10px",
               color: "var(--text-muted)",
               fontFamily: "var(--font-mono)",
-              marginBottom: "6px",
+              marginBottom: "4px",
               textTransform: "uppercase",
               letterSpacing: "0.08em",
             }}
           >
             Caller ← L
           </div>
-          <Waveform color="#06B6D4" />
+          <Waveform color="#06B6D4" count={14} />
         </div>
-        <div>
+        <div style={{ minWidth: 0, flex: "1 1 auto" }}>
           <div
             style={{
               fontSize: "10px",
               color: "var(--text-muted)",
               fontFamily: "var(--font-mono)",
-              marginBottom: "6px",
+              marginBottom: "4px",
               textTransform: "uppercase",
               letterSpacing: "0.08em",
             }}
           >
             AI → R
           </div>
-          <Waveform color="#A78BFA" />
+          <Waveform color="#A78BFA" count={14} />
         </div>
-        <div style={{ marginLeft: "auto", textAlign: "right" }}>
+        <div style={{ marginLeft: "auto", textAlign: "right", flexShrink: 0 }}>
           <div
             style={{
               fontFamily: "var(--font-mono)",
-              fontSize: "22px",
+              fontSize: "18px",
               fontWeight: 700,
               color: "#10B981",
+              lineHeight: 1.1,
             }}
           >
             ~847ms
@@ -277,6 +283,7 @@ function FloatingChip({
 
   return (
     <motion.div
+      className="hero-floating-chip"
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay, duration: 0.5, ease: "backOut" }}
@@ -320,34 +327,26 @@ function TrustStrip() {
       style={{
         display: "flex",
         alignItems: "center",
-        gap: "0",
+        gap: "8px",
         flexWrap: "wrap",
-        justifyContent: "center",
       }}
+      className="trust-strip"
     >
-      {trustItems.map((item, i) => (
-        <span key={item} style={{ display: "flex", alignItems: "center" }}>
-          <span
-            style={{
-              fontSize: "13px",
-              color: "var(--text-muted)",
-              fontFamily: "var(--font-mono)",
-              padding: "0 14px",
-              whiteSpace: "nowrap",
-            }}
-          >
-            {item}
-          </span>
-          {i < trustItems.length - 1 && (
-            <span
-              style={{
-                width: "1px",
-                height: "16px",
-                background: "var(--border-subtle)",
-                display: "inline-block",
-              }}
-            />
-          )}
+      {trustItems.map((item) => (
+        <span
+          key={item}
+          style={{
+            fontSize: "12px",
+            color: "var(--text-muted)",
+            fontFamily: "var(--font-mono)",
+            background: "rgba(255, 255, 255, 0.03)",
+            border: "1px solid var(--border-subtle)",
+            padding: "4px 10px",
+            borderRadius: "6px",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {item}
         </span>
       ))}
     </div>
@@ -431,14 +430,23 @@ export default function HeroSection() {
           className="hero-grid"
         >
           {/* Left: Copy */}
-          <div>
+          <div style={{ minWidth: 0, width: "100%", maxWidth: "100%" }}>
             {/* Eyebrow */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6 }}
             >
-              <div className="section-eyebrow" style={{ marginBottom: "28px" }}>
+              <div
+                className="section-eyebrow"
+                style={{
+                  marginBottom: "24px",
+                  whiteSpace: "normal",
+                  textAlign: "left",
+                  lineHeight: 1.4,
+                  maxWidth: "100%",
+                }}
+              >
                 <span className="live-dot" />
                 Powered by Gemini Live · Runs on your own SIM
               </div>
@@ -449,7 +457,13 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.7, delay: 0.1 }}
-              style={{ fontSize: "clamp(36px, 5vw, 62px)", marginBottom: "20px" }}
+              style={{
+                fontSize: "clamp(26px, 7.5vw, 58px)",
+                marginBottom: "20px",
+                lineHeight: 1.15,
+                wordBreak: "break-word",
+                overflowWrap: "break-word",
+              }}
             >
               Turn your phone number into an{" "}
               <span className="text-gradient-hero">AI voice agent.</span>
@@ -461,11 +475,13 @@ export default function HeroSection() {
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.2 }}
               style={{
-                fontSize: "18px",
+                fontSize: "clamp(15px, 4vw, 18px)",
                 color: "var(--text-secondary)",
                 lineHeight: 1.7,
-                marginBottom: "36px",
+                marginBottom: "32px",
                 maxWidth: "520px",
+                wordBreak: "break-word",
+                overflowWrap: "break-word",
               }}
             >
               Callink bridges real cellular calls to Gemini Live over Bluetooth
@@ -487,13 +503,14 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.3 }}
-              style={{ display: "flex", gap: "14px", flexWrap: "wrap", marginBottom: "44px" }}
+              className="hero-cta-group"
+              style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "36px" }}
             >
               <a
                 href="/api/download"
                 onClick={triggerDownloadEvent}
                 className="btn-primary"
-                style={{ fontSize: "16px", padding: "14px 28px" }}
+                style={{ fontSize: "15px", padding: "13px 24px" }}
               >
                 <Download size={18} />
                 Download for Windows (v2.1)
@@ -503,7 +520,7 @@ export default function HeroSection() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-secondary"
-                style={{ fontSize: "16px", padding: "14px 28px" }}
+                style={{ fontSize: "15px", padding: "13px 24px" }}
               >
                 <Github size={18} />
                 View on GitHub
@@ -511,14 +528,14 @@ export default function HeroSection() {
               <button
                 onClick={handleDemoClick}
                 className="btn-ghost"
-                style={{ fontSize: "16px", padding: "14px 24px" }}
+                style={{ fontSize: "15px", padding: "13px 20px" }}
               >
                 Hear a live call ↓
               </button>
             </motion.div>
 
             {/* Live verified downloads badge */}
-            <div style={{ marginBottom: "28px", display: "flex", alignItems: "center", gap: "10px" }}>
+            <div style={{ marginBottom: "28px", display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
               <LiveDownloadBadge />
               <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>
                 Verified Windows x64 installations
@@ -552,7 +569,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, x: 40 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
-            style={{ position: "relative" }}
+            style={{ position: "relative", minWidth: 0, width: "100%", maxWidth: "100%" }}
           >
             <DashboardMock />
 
@@ -624,8 +641,8 @@ export default function HeroSection() {
         }
         @media (max-width: 900px) {
           .hero-grid {
-            grid-template-columns: 1fr !important;
-            gap: 40px !important;
+            grid-template-columns: minmax(0, 1fr) !important;
+            gap: 36px !important;
           }
         }
       `}</style>
