@@ -1,0 +1,5 @@
+# Robots.txt for Callink
+User-agent: *
+Allow: /
+
+Sitemap: https://callink.dev/sitemap.xml
