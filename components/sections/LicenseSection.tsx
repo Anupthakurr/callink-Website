@@ -117,6 +117,7 @@ export default function LicenseSection() {
             gridTemplateColumns: "repeat(3, 1fr)",
             gap: "20px",
             alignItems: "start",
+            paddingTop: "16px",
           }}
           className="license-grid"
         >
@@ -137,16 +138,17 @@ export default function LicenseSection() {
                   ? "0 0 40px rgba(124,58,237,0.12)"
                   : "none",
                 position: "relative",
+                overflow: "visible",
               }}
             >
               {plan.highlight && (
                 <div
                   style={{
                     position: "absolute",
-                    top: "-12px",
+                    top: "-13px",
                     left: "50%",
                     transform: "translateX(-50%)",
-                    padding: "4px 16px",
+                    padding: "5px 18px",
                     background: "linear-gradient(135deg, #7C3AED, #5B21B6)",
                     borderRadius: "999px",
                     fontFamily: "var(--font-mono)",
@@ -156,6 +158,8 @@ export default function LicenseSection() {
                     textTransform: "uppercase",
                     letterSpacing: "0.08em",
                     whiteSpace: "nowrap",
+                    boxShadow: "0 4px 14px rgba(124,58,237,0.5)",
+                    zIndex: 10,
                   }}
                 >
                   Current commercial
@@ -280,7 +284,10 @@ export default function LicenseSection() {
 
       <style>{`
         @media (max-width: 900px) {
-          .license-grid { grid-template-columns: 1fr !important; }
+          .license-grid {
+            grid-template-columns: 1fr !important;
+            gap: 32px !important;
+          }
         }
       `}</style>
     </section>
