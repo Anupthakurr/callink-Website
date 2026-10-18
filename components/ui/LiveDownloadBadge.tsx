@@ -4,16 +4,28 @@ import { useState, useEffect } from "react";
 import { Download } from "lucide-react";
 
 export function useLiveDownloadCount() {
-  const [count, setCount] = useState<number | null>(null);
+  const [count, setCount] = useState<number | null>(() => {
+    if (typeof window !== "undefined") {
+      const cached = localStorage.getItem("callink_known_downloads");
+      return cached ? Number(cached) : null;
+    }
+    return null;
+  });
   const [lastDownloaded, setLastDownloaded] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   const fetchStats = () => {
-    fetch("/api/stats")
+    fetch("/api/stats?t=" + Date.now(), { cache: "no-store" })
       .then((res) => res.json())
       .then((data) => {
-        if (typeof data.totalDownloads === "number") {
-          setCount(data.totalDownloads);
+        if (typeof data.totalDownloads === "number" && data.totalDownloads > 0) {
+          setCount((prev) => {
+            const next = prev !== null ? Math.max(prev, data.totalDownloads) : data.totalDownloads;
+            try {
+              localStorage.setItem("callink_known_downloads", String(next));
+            } catch {}
+            return next;
+          });
         }
         if (data.lastDownloaded) {
           setLastDownloaded(data.lastDownloaded);
@@ -28,17 +40,40 @@ export function useLiveDownloadCount() {
 
     // Listen for custom event when user clicks download on this client
     const handleLocalDownload = () => {
-      setCount((prev) => (prev !== null ? prev + 1 : 1));
-      setTimeout(fetchStats, 1500);
+      setCount((prev) => {
+        const next = (prev ?? 15) + 1;
+        try {
+          localStorage.setItem("callink_known_downloads", String(next));
+        } catch {}
+        return next;
+      });
+      setTimeout(fetchStats, 1000);
+      setTimeout(fetchStats, 3000);
+    };
+
+    const handleServerUpdate = (e: Event) => {
+      const customEvent = e as CustomEvent<{ count: number }>;
+      if (customEvent.detail?.count) {
+        const newCount = customEvent.detail.count;
+        setCount((prev) => {
+          const next = prev !== null ? Math.max(prev, newCount) : newCount;
+          try {
+            localStorage.setItem("callink_known_downloads", String(next));
+          } catch {}
+          return next;
+        });
+      }
     };
 
     window.addEventListener("callink:download", handleLocalDownload);
+    window.addEventListener("callink:download:updated", handleServerUpdate);
 
-    // Periodic poll every 30 seconds
-    const interval = setInterval(fetchStats, 30000);
+    // Periodic poll every 20 seconds
+    const interval = setInterval(fetchStats, 20000);
 
     return () => {
       window.removeEventListener("callink:download", handleLocalDownload);
+      window.removeEventListener("callink:download:updated", handleServerUpdate);
       clearInterval(interval);
     };
   }, []);
@@ -48,9 +83,27 @@ export function useLiveDownloadCount() {
 
 export function triggerDownloadEvent() {
   if (typeof window !== "undefined") {
+    // 1. Instant optimistic update on UI
     window.dispatchEvent(new Event("callink:download"));
+
+    // 2. Persistently increment on cloud counter
     try {
-      fetch("/api/stats", { method: "POST" }).catch(() => {});
+      fetch("/api/stats", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        cache: "no-store",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (typeof data.totalDownloads === "number") {
+            window.dispatchEvent(
+              new CustomEvent("callink:download:updated", {
+                detail: { count: data.totalDownloads },
+              })
+            );
+          }
+        })
+        .catch(() => {});
     } catch {}
   }
 }
