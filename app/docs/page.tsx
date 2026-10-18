@@ -221,8 +221,7 @@ export default function DocsPage() {
                 </p>
                 <div style={{ marginBottom: "16px" }}>
                   <a
-                    href="https://pub-fd660d9dc0a946a0b983b5f725bba3ea.r2.dev/Callink_v2.1.exe"
-                    download
+                    href="/api/download"
                     className="btn-primary"
                     style={{ fontSize: "14px", padding: "10px 20px" }}
                   >

@@ -489,8 +489,7 @@ export default function HeroSection() {
               style={{ display: "flex", gap: "14px", flexWrap: "wrap", marginBottom: "44px" }}
             >
               <a
-                href="https://pub-fd660d9dc0a946a0b983b5f725bba3ea.r2.dev/Callink_v2.1.exe"
-                download
+                href="/api/download"
                 className="btn-primary"
                 style={{ fontSize: "16px", padding: "14px 28px" }}
               >

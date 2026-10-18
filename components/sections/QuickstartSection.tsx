@@ -396,8 +396,7 @@ export default function QuickstartSection() {
               ))}
               {activeTab === "exe" && (
                 <a
-                  href="https://pub-fd660d9dc0a946a0b983b5f725bba3ea.r2.dev/Callink_v2.1.exe"
-                  download
+                  href="/api/download"
                   className="btn-primary"
                   style={{
                     marginTop: "20px",
