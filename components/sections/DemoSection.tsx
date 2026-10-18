@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import {
   Play,
@@ -14,8 +14,8 @@ import {
 } from "lucide-react";
 
 const callChips = [
-  { icon: Phone, label: "Outbound" },
-  { icon: Clock, label: "8:14 duration" },
+  { icon: Phone, label: "Outbound Call" },
+  { icon: Clock, label: "9:16 duration" },
   { icon: Globe, label: "Hindi + Hinglish" },
   { icon: Zap, label: "~800 ms latency" },
 ];
@@ -84,122 +84,38 @@ function StaticWaveform({
   );
 }
 
-/* ---- Channel Toggle ---- */
-function ChannelToggle({
-  channel,
-  setChannel,
-}: {
-  channel: "stereo" | "caller" | "ai";
-  setChannel: (c: "stereo" | "caller" | "ai") => void;
-}) {
-  const opts: { val: "stereo" | "caller" | "ai"; label: string }[] = [
-    { val: "stereo", label: "Stereo" },
-    { val: "caller", label: "Caller only" },
-    { val: "ai", label: "AI only" },
-  ];
-
-  return (
-    <div
-      style={{
-        display: "inline-flex",
-        background: "rgba(255,255,255,0.04)",
-        border: "1px solid var(--border-subtle)",
-        borderRadius: "999px",
-        padding: "3px",
-        gap: "2px",
-        maxWidth: "100%",
-        flexWrap: "wrap",
-      }}
-      role="radiogroup"
-      aria-label="Audio channel"
-    >
-      {opts.map((o) => (
-        <button
-          key={o.val}
-          onClick={() => setChannel(o.val)}
-          role="radio"
-          aria-checked={channel === o.val}
-          style={{
-            padding: "5px 14px",
-            borderRadius: "999px",
-            border: "none",
-            cursor: "pointer",
-            fontFamily: "var(--font-mono)",
-            fontSize: "12px",
-            fontWeight: 600,
-            transition: "all 0.2s",
-            background: channel === o.val ? "rgba(124,58,237,0.3)" : "transparent",
-            color: channel === o.val ? "#C4B5FD" : "var(--text-muted)",
-            textTransform: "uppercase",
-            letterSpacing: "0.06em",
-          }}
-        >
-          {o.label}
-        </button>
-      ))}
-    </div>
-  );
-}
-
 export default function DemoSection() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [channel, setChannel] = useState<"stereo" | "caller" | "ai">("stereo");
+  const [duration, setDuration] = useState(556); // 9:16 in seconds
+  const [currentTime, setCurrentTime] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
-  const rafRef = useRef<number>(0);
-
-  const totalDuration = 8 * 60 + 14; // 8:14 in seconds
 
   const formatTime = (sec: number) => {
+    if (isNaN(sec) || !isFinite(sec)) return "0:00";
     const m = Math.floor(sec / 60);
     const s = Math.floor(sec % 60);
     return `${m}:${s.toString().padStart(2, "0")}`;
   };
-
-  const currentTime = progress * totalDuration;
-
-  const tick = () => {
-    if (audioRef.current && !audioRef.current.paused) {
-      const p = audioRef.current.currentTime / audioRef.current.duration;
-      setProgress(isNaN(p) ? 0 : p);
-      rafRef.current = requestAnimationFrame(tick);
-    }
-  };
-
-  // Simulate progress when no real audio file present
-  useEffect(() => {
-    let interval: ReturnType<typeof setInterval>;
-    if (isPlaying) {
-      interval = setInterval(() => {
-        setProgress((p) => {
-          if (p >= 1) {
-            setIsPlaying(false);
-            return 0;
-          }
-          return p + 1 / totalDuration;
-        });
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [isPlaying, totalDuration]);
 
   const handlePlayPause = () => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
       } else {
-        audioRef.current.play().catch(() => {
-          // If audio file not found, continue simulating
+        audioRef.current.play().catch((err) => {
+          console.error("Playback error:", err);
         });
       }
     }
-    setIsPlaying(!isPlaying);
   };
 
   const handleScrub = (pct: number) => {
     setProgress(pct);
+    const target = pct * duration;
+    setCurrentTime(target);
     if (audioRef.current) {
-      audioRef.current.currentTime = pct * (audioRef.current.duration || totalDuration);
+      audioRef.current.currentTime = target;
     }
   };
 
@@ -241,8 +157,8 @@ export default function DemoSection() {
               lineHeight: 1.7,
             }}
           >
-            A real 8-minute outbound call in Hindi and Hinglish, recorded by
-            Callink. Dual-track stereo — left is the caller, right is the AI.
+            A real 9-minute outbound call in Hindi and Hinglish, recorded by
+            Callink over cellular Bluetooth HFP.
           </p>
         </motion.div>
 
@@ -296,11 +212,6 @@ export default function DemoSection() {
             })}
           </div>
 
-          {/* Channel toggle */}
-          <div style={{ marginBottom: "20px" }}>
-            <ChannelToggle channel={channel} setChannel={setChannel} />
-          </div>
-
           {/* Waveform */}
           <div style={{ marginBottom: "16px" }}>
             <StaticWaveform progress={progress} onClick={handleScrub} />
@@ -317,8 +228,8 @@ export default function DemoSection() {
               marginBottom: "24px",
             }}
           >
-            <span>{formatTime(currentTime)}</span>
-            <span>8:14</span>
+            <span style={{ color: "var(--text-primary)" }}>{formatTime(currentTime)}</span>
+            <span>{formatTime(duration)}</span>
           </div>
 
           {/* Controls */}
@@ -379,8 +290,26 @@ export default function DemoSection() {
           <audio
             ref={audioRef}
             src="/assets/call_demo_outbound.mp3"
-            onEnded={() => setIsPlaying(false)}
-            preload="none"
+            onLoadedMetadata={(e) => {
+              const d = e.currentTarget.duration;
+              if (d && !isNaN(d) && isFinite(d)) {
+                setDuration(d);
+              }
+            }}
+            onTimeUpdate={(e) => {
+              const ct = e.currentTarget.currentTime;
+              const d = e.currentTarget.duration || duration;
+              setCurrentTime(ct);
+              if (d > 0) setProgress(ct / d);
+            }}
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+            onEnded={() => {
+              setIsPlaying(false);
+              setProgress(0);
+              setCurrentTime(0);
+            }}
+            preload="metadata"
           />
 
           {/* Note */}
