@@ -165,7 +165,7 @@ const tabContent = {
     icon: "⚡",
     steps: [
       { step: "1", title: "Download Callink_v2.1.exe (Windows x64)" },
-      { step: "2", title: "Set your Gemini API key in PowerShell" },
+      { step: "2", title: "Set your Gemini API key in Dashboard Settings" },
       { step: "3", title: "Pair your Android phone via Phone Link" },
       { step: "4", title: "Run Callink_v2.1.exe" },
       { step: "5", title: "Dashboard opens on localhost:5000" },
