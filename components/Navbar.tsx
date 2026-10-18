@@ -22,13 +22,40 @@ export default function Navbar() {
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll, { passive: true });
+
+    // Handle smooth scrolling when navigating to an anchor from another page
+    if (typeof window !== "undefined" && window.location.hash) {
+      const hash = window.location.hash;
+      const timer = setTimeout(() => {
+        const el = document.querySelector(hash);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 300);
+      return () => {
+        clearTimeout(timer);
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleNavClick = (href: string) => {
+  const handleNavClick = (e: React.MouseEvent, href: string) => {
     setMobileOpen(false);
-    const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    if (typeof window !== "undefined") {
+      const isHome = window.location.pathname === "/" || window.location.pathname === "";
+      if (isHome) {
+        const el = document.querySelector(href);
+        if (el) {
+          e.preventDefault();
+          el.scrollIntoView({ behavior: "smooth" });
+          window.history.pushState(null, "", href);
+          return;
+        }
+      }
+      // If not on homepage or target element not on this page, let normal anchor navigation take user to /#target
+    }
   };
 
   return (
@@ -116,11 +143,12 @@ export default function Navbar() {
             className="hidden-mobile"
           >
             {navLinks.map((link) => (
-              <button
+              <a
                 key={link.label}
-                onClick={() => handleNavClick(link.href)}
+                href={`/${link.href}`}
+                onClick={(e) => handleNavClick(e, link.href)}
                 style={{
-                  background: "none",
+                  background: "transparent",
                   border: "none",
                   cursor: "pointer",
                   padding: "6px 14px",
@@ -131,18 +159,20 @@ export default function Navbar() {
                   color: "var(--text-secondary)",
                   transition: "all 0.2s ease",
                   whiteSpace: "nowrap",
+                  textDecoration: "none",
+                  display: "inline-block",
                 }}
                 onMouseEnter={(e) => {
-                  (e.target as HTMLElement).style.color = "var(--text-primary)";
-                  (e.target as HTMLElement).style.background = "rgba(255,255,255,0.05)";
+                  e.currentTarget.style.color = "var(--text-primary)";
+                  e.currentTarget.style.background = "rgba(255,255,255,0.05)";
                 }}
                 onMouseLeave={(e) => {
-                  (e.target as HTMLElement).style.color = "var(--text-secondary)";
-                  (e.target as HTMLElement).style.background = "none";
+                  e.currentTarget.style.color = "var(--text-secondary)";
+                  e.currentTarget.style.background = "transparent";
                 }}
               >
                 {link.label}
-              </button>
+              </a>
             ))}
           </nav>
 
@@ -225,9 +255,10 @@ export default function Navbar() {
               }}
             >
               {navLinks.map((link) => (
-                <button
+                <a
                   key={link.label}
-                  onClick={() => handleNavClick(link.href)}
+                  href={`/${link.href}`}
+                  onClick={(e) => handleNavClick(e, link.href)}
                   style={{
                     background: "none",
                     border: "none",
@@ -240,10 +271,12 @@ export default function Navbar() {
                     color: "var(--text-secondary)",
                     textAlign: "left",
                     transition: "all 0.2s ease",
+                    textDecoration: "none",
+                    display: "block",
                   }}
                 >
                   {link.label}
-                </button>
+                </a>
               ))}
               <div
                 style={{
