@@ -40,6 +40,64 @@ function CopyButton({ code }: { code: string }) {
   );
 }
 
+function highlightCode(rawCode: string): string {
+  const lines = rawCode.split("\n");
+
+  return lines
+    .map((line) => {
+      // 1. Comments
+      const trimmed = line.trimStart();
+      if (trimmed.startsWith("#")) {
+        const indentLength = line.length - trimmed.length;
+        const indent = line.slice(0, indentLength);
+        const commentEscaped = trimmed
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+        return `${indent}<span style="color:#64748B;font-style:italic">${commentEscaped}</span>`;
+      }
+
+      // 2. Base escape
+      let html = line
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+
+      // 3. Extract strings to protect them from inner HTML tag clashes
+      const strings: string[] = [];
+      html = html.replace(/("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')/g, (match) => {
+        strings.push(match);
+        return `___CALLINK_STR_${strings.length - 1}___`;
+      });
+
+      // 4. Split inline comment if any
+      const inlineCommentIdx = html.indexOf("#");
+      let codePart = html;
+      let commentPart = "";
+      if (inlineCommentIdx !== -1) {
+        codePart = html.slice(0, inlineCommentIdx);
+        commentPart = `<span style="color:#64748B;font-style:italic">${html.slice(inlineCommentIdx)}</span>`;
+      }
+
+      // 5. Highlight code tokens
+      codePart = codePart
+        .replace(/\b(Invoke-WebRequest|OutFile|Uri|git|clone|pip|install|copy|python|export|set|echo|cd)\b/g, '<span style="color:#60A5FA;font-weight:600">$1</span>')
+        .replace(/(\$env:)/g, '<span style="color:#C084FC;font-weight:600">$1</span>')
+        .replace(/\b(GEMINI_API_KEY)\b/g, '<span style="color:#FCA5A5;font-weight:600">$1</span>')
+        .replace(/(\.\\[a-zA-Z0-9_\-\.]+)/g, '<span style="color:#38BDF8">$1</span>');
+
+      let combined = codePart + commentPart;
+
+      // 6. Restore strings
+      combined = combined.replace(/___CALLINK_STR_(\d+)___/g, (_, idx) => {
+        return `<span style="color:#86EFAC">${strings[Number(idx)]}</span>`;
+      });
+
+      return combined;
+    })
+    .join("\n");
+}
+
 /* ---- Highlighted Code Block ---- */
 function CodeBlock({ code, lang = "bash" }: { code: string; lang?: string }) {
   return (
@@ -84,24 +142,17 @@ function CodeBlock({ code, lang = "bash" }: { code: string; lang?: string }) {
           border: "1px solid var(--border-subtle)",
           borderTop: "none",
           borderRadius: "0 0 10px 10px",
-          padding: "20px",
+          padding: "22px",
           fontFamily: "var(--font-mono)",
           fontSize: "13px",
           overflowX: "auto",
           lineHeight: 1.7,
-          color: "#C4B5FD",
+          color: "#E2E8F0",
           margin: 0,
         }}
       >
         <code
-          dangerouslySetInnerHTML={{ __html: code
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/(#.+)/g, '<span style="color:#475569;font-style:italic">$1</span>')
-            .replace(/(GEMINI_API_KEY)/g, '<span style="color:#FCA5A5">$1</span>')
-            .replace(/("(?:[^"\\]|\\.)*")/g, '<span style="color:#86EFAC">$1</span>')
-          }}
+          dangerouslySetInnerHTML={{ __html: highlightCode(code) }}
         />
       </pre>
     </div>
@@ -310,8 +361,8 @@ export default function QuickstartSection() {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "1fr 1.4fr",
-            gap: "24px",
+            gridTemplateColumns: "minmax(380px, 1.15fr) minmax(0, 1.25fr)",
+            gap: "28px",
             alignItems: "start",
           }}
           className="quickstart-grid"
@@ -325,26 +376,46 @@ export default function QuickstartSection() {
               exit={{ opacity: 0, x: -10 }}
               transition={{ duration: 0.25 }}
               className="glass-card"
-              style={{ padding: "28px" }}
+              style={{ padding: "32px 28px" }}
             >
               <h3
                 style={{
                   fontFamily: "var(--font-display)",
-                  fontSize: "16px",
+                  fontSize: "17px",
                   marginBottom: "24px",
-                  color: "var(--text-secondary)",
-                  fontWeight: 500,
+                  color: "var(--text-primary)",
+                  fontWeight: 600,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
                 }}
               >
-                Steps
+                <span>Installation Steps</span>
+                <span
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "11px",
+                    color: "#A78BFA",
+                    background: "rgba(124,58,237,0.12)",
+                    border: "1px solid rgba(124,58,237,0.3)",
+                    padding: "3px 8px",
+                    borderRadius: "6px",
+                    fontWeight: 500,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.05em",
+                  }}
+                >
+                  {tab.steps.length} steps
+                </span>
               </h3>
               {tab.steps.map((s, i) => (
                 <div
                   key={s.step}
                   style={{
                     display: "flex",
-                    gap: "14px",
-                    marginBottom: i < tab.steps.length - 1 ? "20px" : 0,
+                    gap: "16px",
+                    alignItems: "flex-start",
+                    marginBottom: i < tab.steps.length - 1 ? "22px" : 0,
                     position: "relative",
                   }}
                 >
@@ -354,17 +425,17 @@ export default function QuickstartSection() {
                       style={{
                         position: "absolute",
                         left: "15px",
-                        top: "32px",
-                        bottom: "-20px",
-                        width: "1px",
-                        background: "rgba(124,58,237,0.2)",
+                        top: "34px",
+                        bottom: "-22px",
+                        width: "2px",
+                        background: "linear-gradient(to bottom, rgba(124,58,237,0.35), rgba(124,58,237,0.08))",
                       }}
                     />
                   )}
                   <div
                     style={{
-                      width: "30px",
-                      height: "30px",
+                      width: "32px",
+                      height: "32px",
                       borderRadius: "50%",
                       background: "rgba(124,58,237,0.15)",
                       border: "1px solid rgba(124,58,237,0.4)",
@@ -372,7 +443,7 @@ export default function QuickstartSection() {
                       alignItems: "center",
                       justifyContent: "center",
                       fontFamily: "var(--font-mono)",
-                      fontSize: "12px",
+                      fontSize: "13px",
                       fontWeight: 700,
                       color: "#A78BFA",
                       flexShrink: 0,
@@ -381,13 +452,14 @@ export default function QuickstartSection() {
                   >
                     {s.step}
                   </div>
-                  <div style={{ paddingTop: "4px" }}>
+                  <div style={{ paddingTop: "5px", flex: 1, minWidth: 0 }}>
                     <div
                       style={{
-                        fontSize: "14px",
+                        fontSize: "14.5px",
                         fontWeight: 500,
                         color: "var(--text-primary)",
-                        lineHeight: 1.4,
+                        lineHeight: 1.5,
+                        wordBreak: "break-word",
                       }}
                     >
                       {s.title}
@@ -396,22 +468,23 @@ export default function QuickstartSection() {
                 </div>
               ))}
               {activeTab === "exe" && (
-                <div style={{ marginTop: "20px", display: "flex", flexDirection: "column", gap: "10px" }}>
+                <div style={{ marginTop: "24px", display: "flex", flexDirection: "column", gap: "10px" }}>
                   <a
                     href="https://pub-fd660d9dc0a946a0b983b5f725bba3ea.r2.dev/Callink_v2.1.exe"
                     onClick={triggerDownloadEvent}
                     className="btn-primary"
                     style={{
                       fontSize: "14px",
-                      padding: "10px 18px",
+                      padding: "11px 18px",
                       width: "100%",
                       justifyContent: "center",
                       boxShadow: "0 0 20px rgba(124, 58, 237, 0.4)",
+                      fontWeight: 600,
                     }}
                     download
                   >
                     <Download size={15} />
-                    Download Callink_v2.1.exe
+                    Download Callink_v2.1.exe (Windows x64)
                   </a>
                   <div style={{ display: "flex", justifyContent: "center" }}>
                     <LiveDownloadBadge />
@@ -429,6 +502,7 @@ export default function QuickstartSection() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 10 }}
               transition={{ duration: 0.25 }}
+              style={{ minWidth: 0, width: "100%" }}
             >
               <CodeBlock code={tab.code} lang={tab.lang} />
             </motion.div>
@@ -567,8 +641,13 @@ export default function QuickstartSection() {
       </div>
 
       <style>{`
+        @media (max-width: 960px) {
+          .quickstart-grid {
+            grid-template-columns: minmax(0, 1fr) !important;
+            gap: 28px !important;
+          }
+        }
         @media (max-width: 768px) {
-          .quickstart-grid { grid-template-columns: minmax(0, 1fr) !important; }
           .phone-steps-grid { grid-template-columns: repeat(2, 1fr) !important; }
         }
         @media (max-width: 480px) {
