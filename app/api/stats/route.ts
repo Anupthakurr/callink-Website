@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDownloadStats, incrementDownloadCount } from "@/lib/downloadCounter";
+import { DOWNLOAD_FILENAME } from "@/lib/constants";
 
 export async function GET(request: NextRequest) {
   // Access request to opt out of static prerendering
@@ -9,7 +10,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(
       {
         status: "success",
-        file: "Callink_v2.1.exe",
+        file: DOWNLOAD_FILENAME,
         totalDownloads: stats.count,
         lastDownloaded: stats.lastDownloaded,
         storageEngine: stats.storage,

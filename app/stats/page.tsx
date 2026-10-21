@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Download, RefreshCw, BarChart3, Clock, Database, CheckCircle2, ArrowRight } from "lucide-react";
 import { useLiveDownloadCount, triggerDownloadEvent } from "@/components/ui/LiveDownloadBadge";
+import { DOWNLOAD_URL } from "@/lib/constants";
 
 export default function StatsPage() {
   const { count, lastDownloaded, loading, refresh } = useLiveDownloadCount();
@@ -18,7 +19,7 @@ export default function StatsPage() {
 
   const handleTestDownload = () => {
     triggerDownloadEvent();
-    window.location.href = "https://pub-fd660d9dc0a946a0b983b5f725bba3ea.r2.dev/Callink_v2.1.exe";
+    window.location.href = DOWNLOAD_URL;
   };
 
   const formattedDate = lastDownloaded

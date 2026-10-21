@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { incrementDownloadCount } from "@/lib/downloadCounter";
-
-const R2_DOWNLOAD_URL = "https://pub-fd660d9dc0a946a0b983b5f725bba3ea.r2.dev/Callink_v2.1.exe";
+import { DOWNLOAD_URL } from "@/lib/constants";
 
 export async function GET(request: NextRequest) {
   try {
@@ -16,7 +15,7 @@ export async function GET(request: NextRequest) {
   }
 
   // Redirect to the actual R2 binary
-  return NextResponse.redirect(R2_DOWNLOAD_URL, {
+  return NextResponse.redirect(DOWNLOAD_URL, {
     status: 302,
     headers: {
       "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",

@@ -2,15 +2,31 @@
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { GitCommit, Tag, Sparkles, Check, Clock, ArrowRight } from "lucide-react";
+import { GitCommit, Tag, Sparkles, Check, Clock, ArrowRight, Download } from "lucide-react";
+import { triggerDownloadEvent } from "@/components/ui/LiveDownloadBadge";
+import { DOWNLOAD_URL } from "@/lib/constants";
 
 export default function ChangelogPage() {
   const releases = [
     {
-      version: "v1.0.0",
+      version: "v2.1.0",
       date: "October 2026",
       tag: "Latest Stable",
       tagColor: "#34D399",
+      summary: "Standalone Windows x64 binary release with zero-dependency standalone launcher, direct Cloudflare R2 distribution, and live analytics telemetry.",
+      features: [
+        "Standalone Windows x64 Binary (Callink_v2.1.exe): Self-contained executable bundled with embedded WASAPI audio routing and dependencies.",
+        "Cloudflare R2 High-Speed Direct Download: Distributed via globally cached edge CDN for instantaneous downloads.",
+        "Real-Time Live Download Telemetry: Live counter sync across client and server with optimistic UI updates.",
+        "Bluetooth HFP/SCO Low-Latency Bridge: Sub-second audio bridge between mobile cellular calls and Gemini Live multimodal WebSockets.",
+      ],
+      isDownloadable: true,
+    },
+    {
+      version: "v1.0.0",
+      date: "October 2026",
+      tag: "Stable",
+      tagColor: "#818CF8",
       summary: "First production release of Callink: GSM-to-Gemini Live AI voice gateway for Windows.",
       features: [
         "Bluetooth HFP/SCO Bridge: Low-latency 16kHz WASAPI audio routing directly to and from Android cellular calls.",
@@ -133,6 +149,24 @@ export default function ChangelogPage() {
                     </li>
                   ))}
                 </ul>
+
+                {"isDownloadable" in rel && rel.isDownloadable && (
+                  <div style={{ marginTop: "24px", paddingTop: "20px", borderTop: "1px solid var(--border-subtle)", display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
+                    <a
+                      href={DOWNLOAD_URL}
+                      onClick={triggerDownloadEvent}
+                      className="btn-primary"
+                      style={{ fontSize: "14px", padding: "10px 20px" }}
+                      download
+                    >
+                      <Download size={16} />
+                      Download Callink_v2.1.exe (Windows x64)
+                    </a>
+                    <span style={{ fontSize: "12px", color: "var(--text-muted)", fontFamily: "var(--font-mono)" }}>
+                      Direct R2 Edge Binary · SHA-256 Verified
+                    </span>
+                  </div>
+                )}
               </div>
             ))}
           </div>

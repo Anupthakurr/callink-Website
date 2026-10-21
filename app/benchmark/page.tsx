@@ -3,7 +3,9 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Zap, Clock, Cpu, BarChart2, CheckCircle2, ArrowRight, Play, RefreshCw } from "lucide-react";
+import { Zap, Clock, Cpu, BarChart2, CheckCircle2, ArrowRight, Play, RefreshCw, Download } from "lucide-react";
+import { triggerDownloadEvent } from "@/components/ui/LiveDownloadBadge";
+import { DOWNLOAD_URL } from "@/lib/constants";
 
 export default function BenchmarkPage() {
   const [activeTest, setActiveTest] = useState<"callink" | "legacy" | null>(null);
@@ -272,9 +274,19 @@ export default function BenchmarkPage() {
           </div>
 
           {/* Bottom CTA */}
-          <div style={{ textAlign: "center" }}>
-            <a href="/#quickstart" className="btn-primary" style={{ padding: "14px 32px", fontSize: "16px" }}>
-              Download Callink &amp; Test Locally
+          <div style={{ display: "flex", justifyContent: "center", gap: "12px", flexWrap: "wrap" }}>
+            <a
+              href={DOWNLOAD_URL}
+              onClick={triggerDownloadEvent}
+              className="btn-primary"
+              style={{ padding: "14px 32px", fontSize: "16px" }}
+              download
+            >
+              <Download size={18} />
+              Download Callink v2.1 (EXE)
+            </a>
+            <a href="/#quickstart" className="btn-secondary" style={{ padding: "14px 28px", fontSize: "16px" }}>
+              Quickstart Setup Guide
               <ArrowRight size={16} />
             </a>
           </div>

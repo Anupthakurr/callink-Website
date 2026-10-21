@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Download, Menu, X, Phone } from "lucide-react";
 import { Github } from "@/components/ui/Icons";
 import { triggerDownloadEvent } from "@/components/ui/LiveDownloadBadge";
+import { DOWNLOAD_URL } from "@/lib/constants";
 
 const navLinks = [
   { label: "Features", href: "#features" },
@@ -193,7 +194,7 @@ export default function Navbar() {
               GitHub
             </a>
             <a
-              href="https://pub-fd660d9dc0a946a0b983b5f725bba3ea.r2.dev/Callink_v2.1.exe"
+              href={DOWNLOAD_URL}
               onClick={triggerDownloadEvent}
               className="btn-primary"
               style={{ fontSize: "14px", padding: "9px 20px" }}
@@ -298,7 +299,7 @@ export default function Navbar() {
                   GitHub
                 </a>
                 <a
-                  href="https://pub-fd660d9dc0a946a0b983b5f725bba3ea.r2.dev/Callink_v2.1.exe"
+                  href={DOWNLOAD_URL}
                   onClick={triggerDownloadEvent}
                   className="btn-primary"
                   style={{ flex: 1, justifyContent: "center" }}

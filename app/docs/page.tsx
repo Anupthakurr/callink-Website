@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { triggerDownloadEvent } from "@/components/ui/LiveDownloadBadge";
+import { DOWNLOAD_URL } from "@/lib/constants";
 import {
   Terminal,
   Copy,
@@ -221,7 +223,8 @@ export default function DocsPage() {
                 </p>
                 <div style={{ marginBottom: "16px" }}>
                   <a
-                    href="https://pub-fd660d9dc0a946a0b983b5f725bba3ea.r2.dev/Callink_v2.1.exe"
+                    href={DOWNLOAD_URL}
+                    onClick={triggerDownloadEvent}
                     className="btn-primary"
                     style={{ fontSize: "14px", padding: "10px 20px" }}
                     download
@@ -232,10 +235,10 @@ export default function DocsPage() {
                 <div className="code-block" style={{ marginBottom: "20px" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
                     <span style={{ fontSize: "12px", color: "#64748B" }}>PowerShell (Run as Administrator)</span>
-                    <CopyButton text="Invoke-WebRequest -Uri 'https://pub-fd660d9dc0a946a0b983b5f725bba3ea.r2.dev/Callink_v2.1.exe' -OutFile 'Callink_v2.1.exe'; .\Callink_v2.1.exe" />
+                    <CopyButton text={`Invoke-WebRequest -Uri '${DOWNLOAD_URL}' -OutFile 'Callink_v2.1.exe'; .\\Callink_v2.1.exe`} />
                   </div>
                   <code>
-                    Invoke-WebRequest -Uri &apos;https://pub-fd660d9dc0a946a0b983b5f725bba3ea.r2.dev/Callink_v2.1.exe&apos; -OutFile &apos;Callink_v2.1.exe&apos;
+                    Invoke-WebRequest -Uri &apos;{DOWNLOAD_URL}&apos; -OutFile &apos;Callink_v2.1.exe&apos;
                     <br />
                     .\Callink_v2.1.exe
                   </code>

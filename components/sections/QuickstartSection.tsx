@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, Copy, Terminal, Download } from "lucide-react";
 import LiveDownloadBadge, { triggerDownloadEvent } from "@/components/ui/LiveDownloadBadge";
+import { DOWNLOAD_URL } from "@/lib/constants";
 
 /* ---- Code Copy Button ---- */
 function CopyButton({ code }: { code: string }) {
@@ -171,7 +172,7 @@ const tabContent = {
       { step: "5", title: "Dashboard opens on localhost:5000" },
     ],
     code: `# 1. Download Callink v2.1
-Invoke-WebRequest -Uri "https://pub-fd660d9dc0a946a0b983b5f725bba3ea.r2.dev/Callink_v2.1.exe" -OutFile "Callink_v2.1.exe"
+Invoke-WebRequest -Uri "${DOWNLOAD_URL}" -OutFile "Callink_v2.1.exe"
 
 # 2. Set your Gemini API key
 $env:GEMINI_API_KEY = "your_api_key_here"
@@ -470,7 +471,7 @@ export default function QuickstartSection() {
               {activeTab === "exe" && (
                 <div style={{ marginTop: "24px", display: "flex", flexDirection: "column", gap: "10px" }}>
                   <a
-                    href="https://pub-fd660d9dc0a946a0b983b5f725bba3ea.r2.dev/Callink_v2.1.exe"
+                    href={DOWNLOAD_URL}
                     onClick={triggerDownloadEvent}
                     className="btn-primary"
                     style={{

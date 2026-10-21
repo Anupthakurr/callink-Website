@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Download, Terminal, Sparkles, Shield, ArrowRight, BookOpen } from "lucide-react";
 import { Github } from "@/components/ui/Icons";
 import LiveDownloadBadge, { triggerDownloadEvent } from "@/components/ui/LiveDownloadBadge";
+import { DOWNLOAD_URL } from "@/lib/constants";
 
 export default function CTASection() {
   return (
@@ -145,7 +146,7 @@ export default function CTASection() {
             }}
           >
             <a
-              href="https://pub-fd660d9dc0a946a0b983b5f725bba3ea.r2.dev/Callink_v2.1.exe"
+              href={DOWNLOAD_URL}
               onClick={triggerDownloadEvent}
               className="btn-primary"
               style={{

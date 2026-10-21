@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { Phone, Heart, ArrowUp, ExternalLink, ShieldCheck, Cpu } from "lucide-react";
 import { Github, Twitter } from "@/components/ui/Icons";
+import { triggerDownloadEvent } from "@/components/ui/LiveDownloadBadge";
+import { DOWNLOAD_URL } from "@/lib/constants";
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -202,6 +204,17 @@ export default function Footer() {
               <li>
                 <a href="/#pricing" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "14px", transition: "color 0.2s" }} className="hover:text-white">
                   Cost Comparison
+                </a>
+              </li>
+              <li>
+                <a
+                  href={DOWNLOAD_URL}
+                  onClick={triggerDownloadEvent}
+                  download
+                  style={{ color: "var(--text-accent-cyan)", textDecoration: "none", fontSize: "14px", transition: "color 0.2s" }}
+                  className="hover:text-white"
+                >
+                  Download Windows (.exe)
                 </a>
               </li>
             </ul>

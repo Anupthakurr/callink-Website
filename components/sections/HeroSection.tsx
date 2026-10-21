@@ -5,6 +5,7 @@ import { motion, useInView } from "framer-motion";
 import { Download, ChevronDown, Zap, DollarSign, Globe } from "lucide-react";
 import { Github } from "@/components/ui/Icons";
 import LiveDownloadBadge, { triggerDownloadEvent } from "@/components/ui/LiveDownloadBadge";
+import { DOWNLOAD_URL } from "@/lib/constants";
 
 /* ---- Animated Waveform ---- */
 function Waveform({ color = "#7C3AED", count = 16 }: { color?: string; count?: number }) {
@@ -507,7 +508,7 @@ export default function HeroSection() {
               style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "36px" }}
             >
               <a
-                href="https://pub-fd660d9dc0a946a0b983b5f725bba3ea.r2.dev/Callink_v2.1.exe"
+                href={DOWNLOAD_URL}
                 onClick={triggerDownloadEvent}
                 className="btn-primary"
                 style={{ fontSize: "15px", padding: "13px 24px" }}
