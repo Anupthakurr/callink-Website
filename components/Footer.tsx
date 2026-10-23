@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { Phone, Heart, ArrowUp, ExternalLink, ShieldCheck, Cpu } from "lucide-react";
-import { Github, Twitter } from "@/components/ui/Icons";
+import { Github, Twitter, YouTube } from "@/components/ui/Icons";
 import { triggerDownloadEvent } from "@/components/ui/LiveDownloadBadge";
-import { DOWNLOAD_URL } from "@/lib/constants";
+import { DOWNLOAD_URL, YOUTUBE_WALKTHROUGH_URL } from "@/lib/constants";
+
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -144,6 +145,35 @@ export default function Footer() {
               >
                 <Twitter size={18} />
               </a>
+              <a
+                href={YOUTUBE_WALKTHROUGH_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "36px",
+                  height: "36px",
+                  borderRadius: "8px",
+                  background: "rgba(255,255,255,0.05)",
+                  border: "1px solid var(--border-glass)",
+                  color: "var(--text-secondary)",
+                  transition: "all 0.2s",
+                  textDecoration: "none",
+                }}
+                aria-label="YouTube Project Walkthrough"
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = "#EF4444";
+                  e.currentTarget.style.borderColor = "rgba(239, 68, 68, 0.4)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = "var(--text-secondary)";
+                  e.currentTarget.style.borderColor = "var(--border-glass)";
+                }}
+              >
+                <YouTube size={18} />
+              </a>
               <Link
                 href="/stats"
                 style={{
@@ -192,6 +222,11 @@ export default function Footer() {
                 </a>
               </li>
               <li>
+                <a href="/#walkthrough" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "14px", transition: "color 0.2s" }} className="hover:text-white">
+                  Video Walkthrough
+                </a>
+              </li>
+              <li>
                 <a href="/#demo" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "14px", transition: "color 0.2s" }} className="hover:text-white">
                   Live Audio Demo
                 </a>
@@ -236,6 +271,17 @@ export default function Footer() {
               Resources
             </h3>
             <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "10px" }}>
+              <li>
+                <a
+                  href={YOUTUBE_WALKTHROUGH_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "14px", display: "inline-flex", alignItems: "center", gap: "4px" }}
+                  className="hover:text-white"
+                >
+                  YouTube Walkthrough <ExternalLink size={12} />
+                </a>
+              </li>
               <li>
                 <Link href="/docs" style={{ color: "var(--text-secondary)", textDecoration: "none", fontSize: "14px", transition: "color 0.2s" }} className="hover:text-white">
                   Documentation

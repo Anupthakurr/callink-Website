@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/sections/HeroSection";
 import ProblemSolutionSection from "@/components/sections/ProblemSolutionSection";
+import WalkthroughSection from "@/components/sections/WalkthroughSection";
 import DemoSection from "@/components/sections/DemoSection";
 import FeaturesSection from "@/components/sections/FeaturesSection";
 import HowItWorksSection from "@/components/sections/HowItWorksSection";
@@ -28,8 +29,12 @@ export default function Home() {
         {/* 2. Problem vs Solution */}
         <ProblemSolutionSection />
 
-        {/* 3. Live Audio Demo */}
+        {/* 3. Official Video Walkthrough */}
+        <WalkthroughSection />
+
+        {/* 4. Live Audio Demo */}
         <DemoSection />
+
 
         {/* 4. Bento Grid Key Features */}
         <FeaturesSection />

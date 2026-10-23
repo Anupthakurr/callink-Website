@@ -2,10 +2,11 @@
 
 import { useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
-import { Download, ChevronDown, Zap, DollarSign, Globe } from "lucide-react";
-import { Github } from "@/components/ui/Icons";
+import { Download, ChevronDown, Zap, DollarSign, Globe, Play } from "lucide-react";
+import { Github, YouTube } from "@/components/ui/Icons";
 import LiveDownloadBadge, { triggerDownloadEvent } from "@/components/ui/LiveDownloadBadge";
 import { DOWNLOAD_URL } from "@/lib/constants";
+
 
 /* ---- Animated Waveform ---- */
 function Waveform({ color = "#7C3AED", count = 16 }: { color?: string; count?: number }) {
@@ -363,6 +364,11 @@ export default function HeroSection() {
     document.querySelector("#demo")?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const handleWalkthroughClick = () => {
+    document.querySelector("#walkthrough")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+
   return (
     <section
       ref={ref}
@@ -517,22 +523,38 @@ export default function HeroSection() {
                 <Download size={18} />
                 Download for Windows (v2.1)
               </a>
+              <button
+                onClick={handleWalkthroughClick}
+                className="btn-secondary"
+                style={{
+                  fontSize: "15px",
+                  padding: "13px 22px",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  borderColor: "rgba(239, 68, 68, 0.4)",
+                  background: "rgba(239, 68, 68, 0.1)",
+                }}
+              >
+                <Play size={16} fill="#EF4444" color="#EF4444" />
+                <span>Watch Walkthrough</span>
+              </button>
               <a
                 href="https://github.com/Anupthakurr/callink"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-secondary"
-                style={{ fontSize: "15px", padding: "13px 24px" }}
+                className="btn-ghost"
+                style={{ fontSize: "15px", padding: "13px 20px" }}
               >
                 <Github size={18} />
-                View on GitHub
+                GitHub
               </a>
               <button
                 onClick={handleDemoClick}
                 className="btn-ghost"
                 style={{ fontSize: "15px", padding: "13px 20px" }}
               >
-                Hear a live call ↓
+                Audio Demo ↓
               </button>
             </motion.div>
 

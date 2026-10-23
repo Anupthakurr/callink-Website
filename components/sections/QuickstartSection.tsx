@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, Copy, Terminal, Download } from "lucide-react";
+import { Check, Copy, Terminal, Download, ExternalLink } from "lucide-react";
+import { YouTube } from "@/components/ui/Icons";
 import LiveDownloadBadge, { triggerDownloadEvent } from "@/components/ui/LiveDownloadBadge";
-import { DOWNLOAD_URL } from "@/lib/constants";
+import { DOWNLOAD_URL, YOUTUBE_WALKTHROUGH_URL } from "@/lib/constants";
+
 
 /* ---- Code Copy Button ---- */
 function CopyButton({ code }: { code: string }) {
@@ -319,6 +321,82 @@ export default function QuickstartSection() {
             Choose your installation method. The .exe is the simplest — no
             Python, no terminal, just download and run.
           </p>
+        </motion.div>
+
+        {/* Walkthrough Video Callout Banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="glass-card"
+          style={{
+            marginBottom: "28px",
+            padding: "16px 22px",
+            border: "1px solid rgba(239, 68, 68, 0.3)",
+            background:
+              "linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(124, 58, 237, 0.08) 100%)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: "14px",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "12px", minWidth: "260px" }}>
+            <div
+              style={{
+                width: "38px",
+                height: "38px",
+                borderRadius: "10px",
+                background: "rgba(239, 68, 68, 0.15)",
+                border: "1px solid rgba(239, 68, 68, 0.3)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
+              }}
+            >
+              <YouTube size={18} color="#EF4444" />
+            </div>
+            <div>
+              <div style={{ fontSize: "14px", fontWeight: 600, color: "var(--text-primary)" }}>
+                Prefer a visual guide? Watch the project walkthrough
+              </div>
+              <div style={{ fontSize: "12.5px", color: "var(--text-secondary)" }}>
+                Watch setup, phone pairing, and a real cellular call demo in action.
+              </div>
+            </div>
+          </div>
+          <div style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap" }}>
+            <button
+              onClick={() =>
+                document.querySelector("#walkthrough")?.scrollIntoView({ behavior: "smooth" })
+              }
+              className="btn-primary"
+              style={{
+                fontSize: "13px",
+                padding: "8px 16px",
+                background: "linear-gradient(135deg, #EF4444, #B91C1C)",
+              }}
+            >
+              Play Video on Site ↑
+            </button>
+            <a
+              href={YOUTUBE_WALKTHROUGH_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-ghost"
+              style={{
+                fontSize: "13px",
+                padding: "8px 14px",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "5px",
+              }}
+            >
+              YouTube <ExternalLink size={12} />
+            </a>
+          </div>
         </motion.div>
 
         {/* Tab bar */}

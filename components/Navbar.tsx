@@ -9,6 +9,7 @@ import { DOWNLOAD_URL } from "@/lib/constants";
 
 const navLinks = [
   { label: "Features", href: "#features" },
+  { label: "Walkthrough", href: "#walkthrough" },
   { label: "How It Works", href: "#how-it-works" },
   { label: "Benchmark", href: "#benchmark" },
   { label: "Demo", href: "#demo" },
